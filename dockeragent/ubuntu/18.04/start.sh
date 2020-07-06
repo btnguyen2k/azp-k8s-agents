@@ -35,6 +35,8 @@ cleanup() {
     ./config.sh remove --unattended \
       --auth PAT \
       --token $(cat "$AZP_TOKEN_FILE")
+
+    rm -f "$AZP_TOKEN_FILE"
   fi
 }
 
@@ -85,11 +87,14 @@ print_header "3. Configuring Azure Pipelines agent..."
   --replace \
   --acceptTeeEula & wait $!
 
-# remove the administrative token before accepting work
-rm $AZP_TOKEN_FILE
+## remove the administrative token before accepting work
+#rm $AZP_TOKEN_FILE
 
 print_header "4. Running Azure Pipelines agent..."
 
-# `exec` the node runtime so it's aware of TERM and INT signals
-# AgentService.js understands how to handle agent self-update and restart
-exec ./externals/node/bin/node ./bin/AgentService.js interactive
+# donot use `exec` so that `trap`s above work!
+./bin/Agent.Listener run & wait $!
+
+## `exec` the node runtime so it's aware of TERM and INT signals
+## AgentService.js understands how to handle agent self-update and restart
+#exec ./externals/node/bin/node ./bin/AgentService.js interactive
