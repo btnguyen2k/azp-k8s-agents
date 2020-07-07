@@ -6,16 +6,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
 RUN apt-get update \
-&& apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-        jq \
-        git \
-        iputils-ping \
-        libcurl4 \
-        libicu60 \
-        libunwind8 \
-        netcat
+        && apt-get install -y --no-install-recommends \
+                ca-certificates \
+                curl \
+                jq \
+                git \
+                iputils-ping \
+                libcurl4 \
+                libicu60 \
+                libunwind8 \
+                netcat \
+        && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+        && apt-get install nodejs
 
 WORKDIR /azp
 
