@@ -34,16 +34,11 @@ RUN if ! curl -sL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/${
 		echo >&2 "error: failed to download 'docker-${DOCKER_VERSION}' from '${DOCKER_CHANNEL}' for '${DOCKER_ARCH}'"; \
 		exit 1; \
 	fi; \
-	\
-	tar --extract \
-		--file docker.tgz \
-		--strip-components 1 \
-		--directory /usr/local/bin/ \
-	; \
+	tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin/; \
 	rm docker.tgz; \
-	\
 	dockerd --version; \
-	docker --version
+	docker --version; \
+        apt-get autoremove -y
 
 WORKDIR /azp
 
