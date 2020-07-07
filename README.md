@@ -5,7 +5,5 @@ This repo provides a `Dockerfile` and guidance on how to build a [self-host Azur
 ## Capabilities:
 
 - Curl
-- Docker v19.x
 - Git
-- Node.js v12.x & npm
 - Python & Python3
