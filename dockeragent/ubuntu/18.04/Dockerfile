@@ -4,10 +4,10 @@ FROM ubuntu:18.04
 # configure apt to not require confirmation (assume the -y argument by default)
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Docker-in-Docker (ref https://github.com/docker-library/docker/blob/91bbc4f7b06c06020d811dafb2266bcd7cf6c06d/18.09/Dockerfile)
-ARG DOCKER_CHANNEL="stable"
-ARG DOCKER_VERSION="19.03.9"
-ARG DOCKER_ARCH="x86_64"
+# # Docker-in-Docker (ref https://github.com/docker-library/docker/blob/91bbc4f7b06c06020d811dafb2266bcd7cf6c06d/18.09/Dockerfile)
+# ARG DOCKER_CHANNEL="stable"
+# ARG DOCKER_VERSION="19.03.9"
+# ARG DOCKER_ARCH="x86_64"
 
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes \
 # Base components & node.js(+npm)
