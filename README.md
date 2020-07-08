@@ -1,6 +1,6 @@
 # Introduction
 
-This repo provides a `Dockerfile` and guidance on how to build a [self-host Azure Pipelines agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops#linux) and deploy it as container on a container service such as Docker or Kubernetes cluster.
+This repo provides a `Dockerfile` and guidance on how to build a [self-host Azure Pipelines agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker#linux) and deploy it as container on a container service such as Docker or Kubernetes cluster.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ The Azure Pipelines agent will join an [agent pool](https://docs.microsoft.com/e
 
 ## Customize your own image
 
-This repository provides a [Dockerfile](dockeragent/ubuntu/18.04/Dockerfile) containing basic tools needed to run a [self-hosted Azure Pipelines agent on Linux](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops#linux).
+This repository provides a [Dockerfile](dockeragent/ubuntu/18.04/Dockerfile) containing basic tools needed to run a [self-hosted Azure Pipelines agent on Linux](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker#linux).
 You are free to customize it with additional tools you need for your project (e.g. JDK). Then build and publish the image to a docker registry if your choice.
 
 Run the following commands to build and publish your image to [Docker Hub](https://hub.docker.com/):
@@ -36,7 +36,7 @@ The Azure Pipelines agent can be deployed as Docker container using the followin
 docker run -d -e AZP_URL=<your-azuredepops-instance> -e AZP_TOKEN=<pat> -e AZP_POOL=<azp-agentpool-name> -e AZP_AGENT_NAME=<agent-name> --name mycontainer myazpagent:ubuntu-18.04
 ```
 
-**[Environment variables](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops#environment-variables)**
+**[Environment variables](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker#environment-variables)**
 
 |Env variable  |Description|Default value|
 |--------------|------------------------------------------------------------|-------------|
@@ -45,3 +45,9 @@ docker run -d -e AZP_URL=<your-azuredepops-instance> -e AZP_TOKEN=<pat> -e AZP_P
 |AZP_AGENT_NAME|Agent name|the container hostname|
 |AZP_POOL      |Agent pool name|`Default`|
 |AZP_WORK      |Work directory|`_work`|
+
+**Mount volumn to persist data in work directory**
+
+```shell
+docker run -d -e AZP_URL=... -e AZP_TOKEN=... -e AZP_POOL=... -e AZP_AGENT_NAME=... -e AZP_WORK=/workspace -v /home/workspace/azp:/workspace --name mycontainer myazpagent:ubuntu-18.04
+```
