@@ -28,7 +28,7 @@ docker push <yourDockerHubUsername>/myazpagent:ubuntu-18.04
 
 Or you can use the [pre-built image](https://hub.docker.com/r/btnguyen2k/azpagent-base).
 
-## Run the agent as Docker container
+## Deploy the agent to Docker
 
 The Azure Pipelines agent can be deployed as Docker container using the following command:
 
@@ -51,3 +51,7 @@ docker run -d -e AZP_URL=<your-azuredepops-instance> -e AZP_TOKEN=<pat> -e AZP_P
 ```shell
 docker run -d -e AZP_URL=... -e AZP_TOKEN=... -e AZP_POOL=... -e AZP_AGENT_NAME=... -e AZP_WORK=/workspace -v /home/workspace/azp:/workspace --name mycontainer myazpagent:ubuntu-18.04
 ```
+
+## Deploy the agent to Kubernetes cluster
+
+See [samples](k8s-samples/).
