@@ -1,0 +1,59 @@
+## Sample YAML file to deploy Azure Pipelines agent to a Kubernetes cluster with host path mapped volume
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: azpagent-secret
+type: Opaque
+data:
+  azpToken: "PAT in base64 format"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azpagent
+spec:
+  selector:
+    matchLabels:
+      app: azpagent
+  template:
+    metadata:
+      labels:
+        app: azpagent
+    spec:
+      containers:
+      - name: azpagent
+        image: btnguyen2k/azpagent-base:latest
+        imagePullPolicy: Always
+        resources:
+          requests: # minimum resources required
+            cpu: 50m
+            memory: 128Mi
+          limits: # maximum resources allocated
+            cpu: 500m
+            #memory: 512Mi
+        env:
+        - name: AZP_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: azpagent-secret
+              key: azpToken
+        - name: AZP_URL
+          value: "<URL to Azure Devops Server>"
+        - name: AZP_POOL
+          value: "<name of agent pool>"
+        - name: AZP_AGENT_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: AZP_WORK
+          value: "/workspace/$(AZP_AGENT_NAME)"
+        volumeMounts:
+        - name: workspace
+          mountPath: "/workspace"
+      volumes:
+      - name: workspace
+        hostPath:
+          path: /tmp/azpworkspace
+          type: DirectoryOrCreate
